@@ -1,0 +1,36 @@
+---
+title: "Working with Spark"
+author: "Steph Locke"
+date: "29 November 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Pre-requisites
+
+You need a Spark installation. An easy way to learn locally is the `sparklyr` package. Use this to get a local install of Spark.
+
+```{r}
+if(!require(sparklyr)) install.packages("sparklyr")
+if(!require(nycflights13)) install.packages("nycflights13")
+library(sparklyr)
+library(nycflights13)
+spark_install()
+```
+
+Spin up a Spark instance and add some data.
+
+```{r}
+sp = spark_connect("local")
+
+library(dplyr)
+flights_tbl <- copy_to(sp, nycflights13::flights, "flights", overwrite = TRUE)
+src_tbls(sp)
+```
+
+## Connect in Power BI
+You can connect to a Spark instance using the Spark connector. In Power BI, open the Get Data dialog and navigate to the Spark option.
+
