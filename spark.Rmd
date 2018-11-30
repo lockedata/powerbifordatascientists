@@ -1,5 +1,5 @@
 ---
-title: "Working with Spark"
+title: "Working with other data science platforms"
 author: "Steph Locke"
 date: "29 November 2018"
 output: html_document
@@ -9,28 +9,28 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## Pre-requisites
+We can work consume data from many different sources in Power BI, but as well as R and Python, some of the most useful to us are the data science platforms. We're able to consume Spark, Databricks, and Hadoop using Power BI.
 
-You need a Spark installation. An easy way to learn locally is the `sparklyr` package. Use this to get a local install of Spark.
+- [HDInsight based Spark](https://docs.microsoft.com/en-us/azure/hdinsight/spark/apache-spark-use-bi-tools)
+- [databricks](https://docs.databricks.com/user-guide/bi/power-bi.html)
 
-```{r}
-if(!require(sparklyr)) install.packages("sparklyr")
-if(!require(nycflights13)) install.packages("nycflights13")
-library(sparklyr)
-library(nycflights13)
-spark_install()
+## Working with databricks
+Once we have a Spark or databricks cluster we can use the Spark connector to talk to a cluster.
+
+```
+https://westeurope.azuredatabricks.net:443/sql/protocolv1/o/7856645940864675/simples
 ```
 
-Spin up a Spark instance and add some data.
+We need a user name and password - these can be tokens for ease.
 
-```{r}
-sp = spark_connect("local")
-
-library(dplyr)
-flights_tbl <- copy_to(sp, nycflights13::flights, "flights", overwrite = TRUE)
-src_tbls(sp)
+```
+token
+dapif31cca4bf07da43c52eca8f0a119c653
 ```
 
-## Connect in Power BI
-You can connect to a Spark instance using the Spark connector. In Power BI, open the Get Data dialog and navigate to the Spark option.
+This can work in *direct query* mode so data stays on the databricks cluster.
 
+## Exercise
+1. Import the flights data from the Databricks cluster
+2. Use (or construct!) a model that predicts flight arrival delays and use this to score the data from Spark
+3. Visualise the results
